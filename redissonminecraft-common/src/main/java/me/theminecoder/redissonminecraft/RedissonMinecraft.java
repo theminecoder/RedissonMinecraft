@@ -44,19 +44,6 @@ public final class RedissonMinecraft {
             }
             YamlConfig yamlConfig = new YamlConfig();
             yamlConfig.setPrivateFields(true);
-
-            yamlConfig.setScalarSerializer(ServerMode.class, new ScalarSerializer() {
-                @Override
-                public String write(Object object) throws YamlException {
-                    return object.toString();
-                }
-
-                @Override
-                public Object read(String value) throws YamlException {
-                    return ServerMode.getByName(value);
-                }
-            });
-
             pluginConfig = new YamlReader(new FileReader(configFile), yamlConfig).read(configType);
         } catch (IOException e) {
             throw new RuntimeException("Could not load config!", e);
