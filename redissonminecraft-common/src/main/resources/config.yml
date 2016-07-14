@@ -1,0 +1,47 @@
+#Core Config
+servers:
+  mode: single
+  config:
+    server: 127.0.0.1:6379
+    password: ''
+  #Cluster Mode
+  #mode: cluster
+  #config:
+  #  servers:
+  #    - 127.0.0.1:6379
+  #    - 127.0.0.1:6380
+  #  password: ''
+  #  scanInterval: 1000
+  #Master/Slaves Mode
+  #mode: masterslave
+  #config:
+  #  master: 127.0.0.1:6379
+  #  slaves:
+  #    - 127.0.0.1:6380
+  #    - 127.0.0.1:6381
+  #  password: ''
+  #Sentinal Mode
+  #mode: sentinal
+  #config:
+  #  masterName: master
+  #  servers:
+  #    - 127.0.0.1:6379
+  #    - 127.0.0.1:6380
+  #  password: ''
+  #AWS Elasticache Mode
+  #mode: aws_elasticache
+  #config:
+  #  servers:
+  #    - 127.0.0.1:6379
+  #    - 127.0.0.1:6379
+  #  password: ''
+  #  scanInterval: 1000
+#enableDynamicServers: true #Disabled by default
+
+#Spigot and Sponge Config
+#serverName: "lobby"
+
+#BungeeCord Config
+#ignoredDynamicServers: #Servers not to remove if removed from redis
+#  - backupHub
+#  - externalServer

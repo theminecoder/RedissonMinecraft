@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    //noinspection GroovyAssignabilityCheck
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    group = 'me.theminecoder'
+    version = '1.0'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    shadowJar {
+        dependencies {
+            include(dependency('org.redisson:redisson'))
+            include(dependency('io.projectreactor:.*'))
+            include(dependency('org.reactivestreams:.*'))
+            include(dependency('com.esotericsoftware.yamlbeans:yamlbeans'))
+            include(dependency('com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'))
+            include(dependency('com.fasterxml.jackson.core:.*'))
+            include(dependency('net.openhft:zero-allocation-hashing'))
+            include(dependency('org.slf4j:.*'))
+        }
+    }
+}

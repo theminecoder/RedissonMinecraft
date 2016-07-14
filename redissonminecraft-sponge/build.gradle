@@ -1,0 +1,27 @@
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spongepowered-repo'
+        url = 'http://repo.spongepowered.org/maven/'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile project(':redissonminecraft-common')
+    compile 'org.spongepowered:spongeapi:4.1.0-SNAPSHOT'
+}
+
+//noinspection GroovyAssignabilityCheck
+processResources {
+    from('src/main/resources') {
+        expand 'version': project.version
+    }
+}
+
+//noinspection GroovyMissingReturnStatement
+shadowJar {
+    dependencies {
+        include(dependency(':redissonminecraft-common'))
+    }
+}

@@ -1,0 +1,3 @@
+rootProject.name = 'redissonminecraft'
+
+include 'redissonminecraft-common', 'redissonminecraft-spigot', 'redissonminecraft-sponge', 'redissonminecraft-bungeecord'

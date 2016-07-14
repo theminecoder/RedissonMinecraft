@@ -1,0 +1,4 @@
+name: RedissonMinecraft
+version: 1.0
+main: me.theminecoder.redissonminecraft.RedissonMinecraftSpigot
+authors: [theminecoder]

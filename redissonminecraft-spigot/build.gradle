@@ -1,0 +1,30 @@
+repositories {
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    compile project(':redissonminecraft-common')
+    compile 'org.spigotmc:spigot-api:1.10.2-R0.1-SNAPSHOT'
+    compile 'org.slf4j:slf4j-simple:1.7.21'
+}
+
+//noinspection GroovyAssignabilityCheck
+processResources {
+    from('src/main/resources') {
+        expand 'version': project.version
+    }
+}
+
+//noinspection GroovyMissingReturnStatement
+shadowJar {
+    dependencies {
+        include(dependency(':redissonminecraft-common'))
+    }
+}
