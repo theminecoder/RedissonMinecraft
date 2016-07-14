@@ -15,13 +15,15 @@ public final class RedissonMinecraftBungeeCord extends Plugin {
 
     private RedissonMinecraftBungeeCordConfig config;
 
+    private RMap<String, String> backendServerMap;
+
     @Override
     public void onEnable() {
         this.config = RedissonMinecraft.init(new File(this.getDataFolder(), "config.yml"), RedissonMinecraftBungeeCordConfig.class, this.getLogger());
 
         if (this.config.isEnableDynamicServers()) {
+            this.backendServerMap = RedissonMinecraft.getClient().getMapCache("redissonminecraft__backend-servers");
             this.getProxy().getScheduler().schedule(this, () -> {
-                RMap<String, String> backendServerMap = RedissonMinecraft.getClient().getMapCache("redissonminecraft__backend-servers");
                 backendServerMap.readAllKeySetAsync().addListener(keyFuture -> {
                     if (keyFuture.isSuccess()) {
                         backendServerMap.getAllAsync((Set<String>) keyFuture.getNow()).addListener(future -> {
