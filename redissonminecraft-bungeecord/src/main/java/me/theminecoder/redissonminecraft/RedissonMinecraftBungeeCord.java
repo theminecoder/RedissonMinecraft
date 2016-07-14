@@ -3,6 +3,7 @@ package me.theminecoder.redissonminecraft;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.redisson.core.RMap;
+import org.redisson.core.RMapCache;
 
 import java.io.File;
 import java.net.InetSocketAddress;
@@ -15,7 +16,7 @@ public final class RedissonMinecraftBungeeCord extends Plugin {
 
     private RedissonMinecraftBungeeCordConfig config;
 
-    private RMap<String, String> backendServerMap;
+    private RMapCache<String, String> backendServerMap;
 
     @Override
     public void onEnable() {
