@@ -63,31 +63,31 @@ public final class RedissonMinecraft {
         switch (mode) {
             case SINGLE_SERVER: {
                 config.useSingleServer().setAddress(pluginConfig.getServers().getConfig().getOrDefault("server", "127.0.0.1:6379").toString());
-                config.useSingleServer().setPassword(stringOrNull(pluginConfig.getServers().getConfig().get("password").toString()));
+                config.useSingleServer().setPassword(stringOrNull(pluginConfig.getServers().getConfig().getOrDefault("password", "").toString()));
             }
             break;
             case MASTER_SLAVE: {
                 config.useMasterSlaveServers().setMasterAddress(pluginConfig.getServers().getConfig().getOrDefault("master", "127.0.0.1:6379").toString());
                 config.useMasterSlaveServers().addSlaveAddress(((List<String>) pluginConfig.getServers().getConfig().getOrDefault("slaves", ImmutableList.of())).stream().toArray(String[]::new));
-                config.useMasterSlaveServers().setPassword(stringOrNull(pluginConfig.getServers().getConfig().get("password").toString()));
+                config.useMasterSlaveServers().setPassword(stringOrNull(pluginConfig.getServers().getConfig().getOrDefault("password", "").toString()));
             }
             break;
             case CLUSTER: {
                 config.useClusterServers().addNodeAddress(((List<String>) pluginConfig.getServers().getConfig().getOrDefault("servers", ImmutableList.of("127.0.0.1:6379"))).stream().toArray(String[]::new));
                 config.useClusterServers().setScanInterval(Integer.valueOf(pluginConfig.getServers().getConfig().getOrDefault("scanInterval", 1000).toString()));
-                config.useClusterServers().setPassword(stringOrNull(pluginConfig.getServers().getConfig().get("password").toString()));
+                config.useClusterServers().setPassword(stringOrNull(pluginConfig.getServers().getConfig().getOrDefault("password", "").toString()));
             }
             break;
             case SENTINAL: {
                 config.useSentinelServers().setMasterName(pluginConfig.getServers().getConfig().getOrDefault("masterName", "master").toString());
                 config.useSentinelServers().addSentinelAddress(((List<String>) pluginConfig.getServers().getConfig().getOrDefault("servers", ImmutableList.of("127.0.0.1:6379"))).stream().toArray(String[]::new));
-                config.useSentinelServers().setPassword(stringOrNull(pluginConfig.getServers().getConfig().get("password").toString()));
+                config.useSentinelServers().setPassword(stringOrNull(pluginConfig.getServers().getConfig().getOrDefault("password", "").toString()));
             }
             break;
             case ELASTICACHE: {
                 config.useElasticacheServers().addNodeAddress(((List<String>) pluginConfig.getServers().getConfig().getOrDefault("servers", ImmutableList.of("127.0.0.1:6379"))).stream().toArray(String[]::new));
                 config.useElasticacheServers().setScanInterval(Integer.valueOf(pluginConfig.getServers().getConfig().getOrDefault("scanInterval", 1000).toString()));
-                config.useElasticacheServers().setPassword(stringOrNull(pluginConfig.getServers().getConfig().get("password").toString()));
+                config.useElasticacheServers().setPassword(stringOrNull(pluginConfig.getServers().getConfig().getOrDefault("password", "").toString()));
             }
             break;
         }
