@@ -18,8 +18,8 @@ public final class RedissonMinecraftSpigot extends JavaPlugin implements Listene
     @Override
     public void onEnable() {
         this.config = RedissonMinecraft.init(new File(this.getDataFolder(), "config.yml"), RedissonMinecraftBackendConfig.class, this.getLogger());
-        this.backendServerMap = RedissonMinecraft.getClient().getMapCache("redissonminecraft__backend-servers");
         if (this.config.isEnableDynamicServers()) {
+            this.backendServerMap = RedissonMinecraft.getClient().getMapCache("redissonminecraft__backend-servers");
             this.getServer().getScheduler().runTaskTimerAsynchronously(this, () ->
                     backendServerMap.put(config.getServerName(), Bukkit.getIp() + ":" + Bukkit.getPort(), 1, TimeUnit.MINUTES)
                     , 0, 200);

@@ -40,8 +40,8 @@ public class RedissonMinecraftSponge {
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
         this.config = RedissonMinecraft.init(configFile.toFile(), RedissonMinecraftBackendConfig.class, java.util.logging.Logger.getLogger(logger.getName()));
-        this.backendServerMap = RedissonMinecraft.getClient().getMapCache("redissonminecraft__backend-servers");
         if (this.config.isEnableDynamicServers()) {
+            this.backendServerMap = RedissonMinecraft.getClient().getMapCache("redissonminecraft__backend-servers");
             Sponge.getScheduler().createTaskBuilder().async().intervalTicks(200).execute(() -> {
                 InetSocketAddress address = Sponge.getServer().getBoundAddress().orElseThrow(() -> new IllegalStateException("Bound Address not available, server not yet bound?"));
                 backendServerMap.put(config.getServerName(), address.getHostName() + ":" + address.getPort(), 1, TimeUnit.MINUTES);
