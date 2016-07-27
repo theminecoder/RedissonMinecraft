@@ -28,16 +28,18 @@ subprojects {
         jcenter()
     }
 
-    bintray {
-        user = 'theminecoder'
-        key = property('BINTRAY_KEY')
-        configurations = ['archives']
-        pkg {
-            repo = 'maven'
-            name = 'RedissonMinecraft'
+    if(hasProperty('BINTRAY_KEY')) {
+        bintray {
+            user = 'theminecoder'
+            key = property('BINTRAY_KEY')
+            configurations = ['archives']
+            pkg {
+                repo = 'maven'
+                name = 'RedissonMinecraft'
 
-            version {
-                name = project.version;
+                version {
+                    name = project.version;
+                }
             }
         }
     }
