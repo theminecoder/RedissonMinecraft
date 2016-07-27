@@ -3,6 +3,8 @@ This integrates [Redisson] into most major minecraft server platforms.
 
 It also serves as a stand alone plugin for bungeecord to have dynamic server registration.
 
+[Download it!](https://github.com/theminecoder/RedissonMinecraft/releases)
+
 ### What is [Redisson]?
 [Redisson] is a Java data structure wrapper on top of a redis client to provide a distributed data object store. 
 It provides distributed maps, queues, sets, lists, locks and lots more.  
