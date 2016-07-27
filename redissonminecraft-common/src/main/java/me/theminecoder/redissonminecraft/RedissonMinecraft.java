@@ -56,10 +56,10 @@ public final class RedissonMinecraft {
         //Do the actual init here...
         Config config = new Config();
         ServerMode mode = ServerMode.getByName(pluginConfig.getServers().getMode());
-        if(mode==null) {
-            throw new IllegalArgumentException("No mode defined with the name \""+pluginConfig.getServers().getMode()+"\"!");
+        if (mode == null) {
+            throw new IllegalArgumentException("No mode defined with the name \"" + pluginConfig.getServers().getMode() + "\"!");
         }
-        logger.info("Configuring to use "+mode.name()+" connection mode....");
+        logger.info("Configuring to use " + mode.name() + " connection mode....");
         switch (mode) {
             case SINGLE_SERVER: {
                 config.useSingleServer().setAddress(pluginConfig.getServers().getConfig().getOrDefault("server", "127.0.0.1:6379").toString());

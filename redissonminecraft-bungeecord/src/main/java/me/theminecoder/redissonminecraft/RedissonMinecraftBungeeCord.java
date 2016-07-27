@@ -1,8 +1,10 @@
 package me.theminecoder.redissonminecraft;
 
+import me.theminecoder.redissonminecraft.events.DynamicServerAddedEvent;
+import me.theminecoder.redissonminecraft.events.DynamicServerRemovedEvent;
+import me.theminecoder.redissonminecraft.events.DynamicServerUpdatedEvent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
-import org.redisson.core.RMap;
 import org.redisson.core.RMapCache;
 
 import java.io.File;
@@ -42,27 +44,30 @@ public final class RedissonMinecraftBungeeCord extends Plugin {
                                             currentServerEntry.getValue().getPlayers().forEach(player ->
                                                     player.disconnect("That server has changed IP while online, duplicate server?"));
                                             String[] newIp = backendServers.get(currentServerEntry.getKey()).split(":");
+                                            ServerInfo newServer = this.getProxy().constructServerInfo(currentServerEntry.getKey(),
+                                                    new InetSocketAddress(newIp[0], Integer.valueOf(newIp[1])), "", false);
                                             this.getLogger().warning("Server IP for \"" + currentServerEntry.getKey() + "\" updated!");
-                                            currentServerEntry.setValue(this.getProxy().constructServerInfo(currentServerEntry.getKey(),
-                                                    new InetSocketAddress(newIp[0], Integer.valueOf(newIp[1])), "", false));
+                                            currentServerEntry.setValue(newServer);
+                                            this.getProxy().getPluginManager().callEvent(new DynamicServerUpdatedEvent(currentServerEntry.getValue(), newServer));
                                         }
                                     } else {
-                                        if(this.config.getIgnoredDynamicServers().stream().filter(server -> server.equalsIgnoreCase(currentServerEntry.getKey())).findFirst().isPresent()) {
+                                        if (this.config.getIgnoredDynamicServers().stream().filter(server -> server.equalsIgnoreCase(currentServerEntry.getKey())).findFirst().isPresent()) {
                                             continue;
                                         }
                                         //noinspection deprecation
                                         currentServerEntry.getValue().getPlayers().forEach(player ->
                                                 player.disconnect("That server has timed out, broken connection?"));
-                                        this.getLogger().warning("Server IP for \"" + currentServerEntry.getKey() + "\" removed!");
                                         currentServerIterator.remove();
+                                        this.getProxy().getPluginManager().callEvent(new DynamicServerRemovedEvent(currentServerEntry.getValue()));
                                     }
                                 }
 
                                 backendServers.entrySet().stream().filter(serverEntry -> !currentServers.containsKey(serverEntry.getKey())).forEach(serverEntry -> {
                                     String[] newIp = backendServers.get(serverEntry.getKey()).split(":");
-                                    currentServers.put(serverEntry.getKey(), this.getProxy().constructServerInfo(serverEntry.getKey(),
-                                            new InetSocketAddress(newIp[0], Integer.valueOf(newIp[1])), "", false));
-                                    this.getLogger().info("Server IP for \"" + serverEntry.getKey() + "\" added!");
+                                    ServerInfo newServer = this.getProxy().constructServerInfo(serverEntry.getKey(),
+                                            new InetSocketAddress(newIp[0], Integer.valueOf(newIp[1])), "", false);
+                                    currentServers.put(serverEntry.getKey(), newServer);
+                                    this.getProxy().getPluginManager().callEvent(new DynamicServerAddedEvent(newServer));
                                 });
                             }
                         });
