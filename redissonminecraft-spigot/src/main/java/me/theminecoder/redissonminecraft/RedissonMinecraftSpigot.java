@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class RedissonMinecraftSpigot extends JavaPlugin implements Listener {
 
-    private RedissonMinecraftBackendConfig config;
+    private static RedissonMinecraftBackendConfig config;
 
     private RMapCache<String, String> backendServerMap;
 
@@ -21,8 +21,12 @@ public final class RedissonMinecraftSpigot extends JavaPlugin implements Listene
         if (this.config.isEnableDynamicServers()) {
             this.backendServerMap = RedissonMinecraft.getClient().getMapCache("redissonminecraft__backend-servers");
             this.getServer().getScheduler().runTaskTimerAsynchronously(this, () ->
-                    backendServerMap.put(config.getServerName(), Bukkit.getIp() + ":" + Bukkit.getPort(), 1, TimeUnit.MINUTES)
-                    , 0, 200);
+                    backendServerMap.put(config.getServerName(), Bukkit.getIp() + ":" + Bukkit.getPort(), 10, TimeUnit.SECONDS)
+                    , 0, 60);
         }
+    }
+
+    public static RedissonMinecraftBackendConfig getPluginConfig() {
+        return config;
     }
 }

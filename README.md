@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    compile 'me.theminecoder:redissonminecraft-%servertype%:1.0'
+    compile 'me.theminecoder:redissonminecraft-%servertype%:1.1'
 }
 ```
 

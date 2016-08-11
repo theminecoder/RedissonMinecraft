@@ -33,7 +33,7 @@ public class RedissonMinecraftSponge {
     @SuppressWarnings("unused")
     private Path configFile;
 
-    private RedissonMinecraftBackendConfig config;
+    private static RedissonMinecraftBackendConfig config;
 
     private RMapCache<String, String> backendServerMap;
 
@@ -42,11 +42,14 @@ public class RedissonMinecraftSponge {
         this.config = RedissonMinecraft.init(configFile.toFile(), RedissonMinecraftBackendConfig.class, java.util.logging.Logger.getLogger(logger.getName()));
         if (this.config.isEnableDynamicServers()) {
             this.backendServerMap = RedissonMinecraft.getClient().getMapCache("redissonminecraft__backend-servers");
-            Sponge.getScheduler().createTaskBuilder().async().intervalTicks(200).execute(() -> {
+            Sponge.getScheduler().createTaskBuilder().async().intervalTicks(60).execute(() -> {
                 InetSocketAddress address = Sponge.getServer().getBoundAddress().orElseThrow(() -> new IllegalStateException("Bound Address not available, server not yet bound?"));
-                backendServerMap.put(config.getServerName(), address.getHostName() + ":" + address.getPort(), 1, TimeUnit.MINUTES);
+                backendServerMap.put(config.getServerName(), address.getHostName() + ":" + address.getPort(), 10, TimeUnit.SECONDS);
             }).name("Redisson Minecraft - Dynamic Server Config Sender").submit(this);
         }
     }
 
+    public static RedissonMinecraftBackendConfig getConfig() {
+        return config;
+    }
 }

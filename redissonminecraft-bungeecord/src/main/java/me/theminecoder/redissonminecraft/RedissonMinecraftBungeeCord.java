@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class RedissonMinecraftBungeeCord extends Plugin {
 
-    private RedissonMinecraftBungeeCordConfig config;
+    private static RedissonMinecraftBungeeCordConfig config;
 
     private RMapCache<String, String> backendServerMap;
 
@@ -75,5 +75,9 @@ public final class RedissonMinecraftBungeeCord extends Plugin {
                 });
             }, 0, 3, TimeUnit.SECONDS);
         }
+    }
+
+    public static RedissonMinecraftBungeeCordConfig getPluginConfig() {
+        return config;
     }
 }
